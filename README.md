@@ -151,16 +151,49 @@ This module also includes a potentiometer that will fix the threshold value, & t
 
 ##  Program 
 
+```
 
+#include "main.h"
+#include"stdio.h"
+#include<string.h>
+ADC_HandleTypeDef hadc1
+UART_handletypeDef huart2;
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ADC1_Init(void);
+static void MX_USART2_UART_Init(void);
+
+int main(void)
+{
+	uint16_t inp_val;
+	char msg[10];
+	HAL_Init();
+	SystemClock_Config();
+	MX_GPIO_Init();
+	MX_ADC1_Init();
+	MX_USART2_UART_Init();
+while (1)
+{
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC _Pol1ForConversion(&hadc1,10000);
+	inp_val=HAL_ADC_GetValue(&hadc1) ;
+	sprintf(msg,'
+	, "%hu\r\n", inp_val);
+	HAL_UART_Transmit (&huart2, (uint8_t*)msg,strlen(msg),10000);
+	HAL_Delay (500);
+}
+	
+}
  
-
-## Result :
+```
  
 ## Output  :
 
+![WhatsApp Image 2025-11-11 at 09 31 35_0260e51a](https://github.com/user-attachments/assets/b70ec5d1-52ff-4efd-a149-e3a4c835decf)
 
 
+## Result :
+
+The analog sensor was successfully interfaced with the STM32 Nucleo board, and ADC values were read and displayed through the serial port.
 
 
-
-****
